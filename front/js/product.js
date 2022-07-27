@@ -80,7 +80,7 @@ fetch(urlProduct)
 
 // myProduct = JSON.parse(localStorage.getItem('panier'))
 
-// var myProduct = urlProdct;
+// var myProduct = urlProduct;
 myProduct = {
     id : urlProduct._id,
     nom : urlProduct.name,
