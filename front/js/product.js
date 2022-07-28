@@ -33,6 +33,14 @@ fetch(urlProduct)
     
     prix.textContent = urlProduct.price;
 
+    // console.log(new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(prixproduit));
+    // var prixproduit = urlProduct.price;
+    // prixproduit = price;
+    // prix.textContent = prixproduit;
+
+
+
+
     let description = document.getElementById("description")
     console.log(description , image)
 
