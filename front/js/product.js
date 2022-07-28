@@ -6,7 +6,7 @@ const urlParams = new URLSearchParams(window.location.search);
 const id = urlParams.get("id");
 console.log(id)
 
-// let urlProduct = "http://localhost:3000/api/products?id=${product._id}"
+
 let urlBase = "http://localhost:3000/api/products/"
 let urlProduct = `http://localhost:3000/api/products/${id}`
 // let urlProduct = urlBase + id
@@ -30,8 +30,7 @@ fetch(urlProduct)
 
     let prix = document.getElementById("price")
     console.log(price)
-    // console.log(new Intl.NumberFormat().format(prix));
-    // console.log(new Intl.NumberFormat("en-IN", {maximumSignificantDigits: 3}).format(prix));
+    
     prix.textContent = urlProduct.price;
 
     let description = document.getElementById("description")
@@ -86,7 +85,7 @@ myProduct = {
     nom : urlProduct.name,
     image : urlProduct.imageUrl,
     description : urlProduct.description,
-    prix : urlProduct.price,   
+    // prix : urlProduct.price,   
 };
 
 

@@ -22,7 +22,6 @@ fetch(url)
         let cardArticle = document.createElement ("article");
         let cardImg = document.createElement("img");
         let productName = document.createElement("h3");
-        // productName = document.createTextNode (`${product.name}`)
         productName.textContent = product.name;
         let productParagraphe = document.createElement("br");
         let productDescription = document.createElement("p");
@@ -40,19 +39,9 @@ fetch(url)
 
         HTML.appendChild(card)
 
-        // myHTML += `<a href="./product.html?id=${product._id}">
-        //             <article>
-        //                 <img src="${product.imageUrl}" alt="${product.name}">
-        //                 <h3 class="productName">${product.name}</h3>
-        //                 <p class="productDescription">${product.description}</p>
-        //             </article>
-        //             </a>`
 
     
     });
-    
-    // HTML.innerHTML = myHTML
-    // console.log(myHtml)
   
 })
 
