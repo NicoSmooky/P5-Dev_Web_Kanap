@@ -82,10 +82,11 @@ fetch(urlProduct)
 // var myProduct = urlProduct;
 myProduct = {
     id : urlProduct._id,
-    nom : urlProduct.name,
-    image : urlProduct.imageUrl,
-    description : urlProduct.description,
+    // nom : urlProduct.name,
+    // image : urlProduct.imageUrl,
+    // description : urlProduct.description,
     // prix : urlProduct.price,   
+    // quantity : itemQuantity
 };
 
 
