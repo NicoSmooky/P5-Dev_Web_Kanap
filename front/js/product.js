@@ -31,11 +31,10 @@ fetch(urlProduct)
     let prix = document.getElementById("price")
     console.log(price)
     
-    prix.textContent = urlProduct.price;
-
+    var prixproduit = urlProduct.price;
     // console.log(new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(prixproduit));
-    // var prixproduit = urlProduct.price;
-    // prixproduit = price;
+    
+    prix.textContent = (new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' , signDisplay: "never" }).format(prixproduit));
     // prix.textContent = prixproduit;
 
 
@@ -67,45 +66,54 @@ fetch(urlProduct)
 
     let btnpanier = document.getElementById("addToCart");
     console.log(btnpanier)
+
     
     btnpanier.addEventListener("click", event => {
     event.preventDefault()
-    alert("ok")
+    alert("Produit ajouté")
+
+    var color_select = document.getElementById("colors").value;
+    console.log(color_select)
+   
+    var quantity_select = document.getElementById("quantity").value;
+    console.log(quantity_select)
 
 
-
-
+    myProduct = {
+        id : urlProduct._id,
+        imgProduit : urlProduct.imageUrl,
+        nomProduit : urlProduct.name,
+        descriptionProduit : urlProduct.description,
+        // *** color : couleur sélectionné *** //
+        colors : color_select,
+        // *** quantité : quantité sélectionné *** //
+        quantity : quantity_select
+    };
+    
     console.log(myProduct)
-
-
-
+   
+    urlProduct = JSON.stringify(myProduct);
+   
+    
+    
+    myProduct = localStorage.getItem("myProduct");
+    
+    localStorage.setItem('panier', urlProduct);
+    
+    
+    console.log(localStorage.getItem('panier'));
+    
 
 });
 
 
+myProduct = JSON.parse(localStorage.getItem('panier'))
 
+var myProduct = urlProduct;
 
-// myProduct = JSON.parse(localStorage.getItem('panier'))
+sessionStorage.removeItem("myProduct");
 
-// var myProduct = urlProduct;
-myProduct = {
-    id : urlProduct._id,
-    // nom : urlProduct.name,
-    // image : urlProduct.imageUrl,
-    // description : urlProduct.description,
-    // prix : urlProduct.price,   
-    // quantity : itemQuantity
-};
-
-
-
-urlProduct = JSON.stringify(myProduct);
-
-localStorage.setItem('panier', urlProduct);
-
-
-console.log(localStorage.getItem('panier'));
-
+myProduct = localStorage.getItem("myProduct");
 
 });
 
