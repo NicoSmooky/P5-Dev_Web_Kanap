@@ -28,16 +28,16 @@ fetch(urlProduct)
     console.log(nom)
     nom.textContent = urlProduct.name;
 
+    //** Prix **//
+  
     let prix = document.getElementById("price")
     console.log(price)
     
     var prixproduit = urlProduct.price;
-    // console.log(new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(prixproduit));
+    prix.textContent = (new Intl.NumberFormat('de-DE', { style: 'decimal', currency: 'EUR' , currencyDisplay: "code" }).format(prixproduit));
     
-    prix.textContent = (new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' , signDisplay: "never" }).format(prixproduit));
-    // prix.textContent = prixproduit;
 
-
+    //** Prix End **//
 
 
     let description = document.getElementById("description")

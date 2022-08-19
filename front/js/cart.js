@@ -18,12 +18,6 @@
 
 
 
-
-
-  
-
-
-
     // test //
     // function addElement () {
 
@@ -36,6 +30,8 @@
     //     var currentDiv = document.getElementById('cart__items');
         
     // Fin Test //** */
+
+
     let HTML = document.getElementById("cart__items")
     // let myHTML =""
         
