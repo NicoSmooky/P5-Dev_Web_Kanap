@@ -1,94 +1,101 @@
 
-// let id_product = window.localStorage.getItem('id');
+window.localStorage.getItem('panier');
 
-// imgProduit = window.localStorage.getItem('imgProduit')
+panier = JSON.parse(window.localStorage.getItem('panier'))
 
-
-
-
-
-// window.localStorage.getItem('panier');
-// let panier = localStorage
-
-// // let couleur = window.localStorage.getItem('colors');
-// // let quantiter = window.localStorage.getItem('quantity');
-// console.log(panier)
-// urlProduct = window.localStorage.getItem('id')
+console.log(panier)
+// id = JSON.parse(window.localStorage.getItem('idProduct'))
 
 
 
 
-    // test //
-    // function addElement () {
 
-    //     var cart__item = document.createElement("div");
-
-    //     var newContent = document.createTextNode('Salut');
-
-    //     cart__item.appendChild(newContent)
-
-    //     var currentDiv = document.getElementById('cart__items');
-        
-    // Fin Test //** */
-
-
+   
     let HTML = document.getElementById("cart__items")
-    // let myHTML =""
+   
         
-
+// ****HTML****//
     let cart__item = document.createElement ("article")
-    // document.getElementById('cart__item').dataset.id = window.localStorage.getItem('id');
     
-    // .setAttribute('data-id')
-    HTML.appendChild(cart__item)
-    // HTML.prepend(cart__item)
+    console.log(panier.id)
 
-        let cart__item__img = document.createElement("article")
-        // cart__item__img = document.createTextNode('coucou')
-        // cart__item__img.appendChild(cart__item)
-        // cart__item.prepend(cart__item__img)
+    cart__item.setAttribute("data-id", panier.id)
+    cart__item.setAttribute("data-color", panier.id)
+    cart__item.classList.add("cart__item")
+
+    
+    HTML.appendChild(cart__item)
+    
+
+        let cart__item__img = document.createElement("div")
+        cart__item__img.classList.add("cart__item__img")
+        console.log(cart__item__img)
+        cart__item.appendChild(cart__item__img)
+        
             let cart_img = document.createElement("img")
-            // cart__item__img.prepend(cart_img)
-            // ajouter img//
-            imgProduit = window.localStorage.getItem('imgProduit')
-            cart_img = imgProduit
+            cart_img.classList.add("cart_img")
+            
+            cart__item__img.appendChild(cart_img)
+            cart_img.src = panier.imgProduit
 
         
-        let cart__item__content = document.createElement("div");
-        // cart__item__content.appendChild(cart__item)
-        // cart__item.prepend(cart__item__content)
+        let cart__item__content = document.createElement("div")
+        cart__item__content.classList.add("cart__item__content")
+        cart__item.appendChild(cart__item__content)
+        
 
 
-            let cart__item__content__description = document.createElement("div");
-            // cart__item__content__description.appendChild(cart__item__content);
-            // cart__item__content.prepend(cart__item__content__description)
+            let cart__item__content__description = document.createElement("div")
+            cart__item__content__description.classList.add("cart__item__content__description")
+            cart__item__content.appendChild(cart__item__content__description)
+            
 
-            //     let nom_produit = document.createElement("h2");
-            //     nom_produit.textContent = window.localStorage.getItem('id');
-            //     let colors = document.createElement("p");
-            //     let prix = document.createElement("p");
-            //     nom_produit.appendChild(cart__item__content__description);
-            //     colors.appendChild(cart__item__content__description);
-            //     prix.appendChild(cart__item__content__description);
-            //     colors = window.localStorage.getItem('colors')
+                let nom_produit = document.createElement("h2")
+                nom_produit.classList.add("nom_produit")
+                nom_produit.textContent = panier.nomProduit
+                cart__item__content__description.appendChild(nom_produit)
+                
 
-            // let cart__item__content__settings = document.createElement("div");
-            // cart__item__content__settings.appendChild(cart__item__content);
-
-            //     let cart__item__content__settings__quantity = document.createElement("div");
-            //     cart__item__content__settings__quantity.appendChild(cart__item__content__settings);
-            //         let quantité = document.createElement("p");
-            //         quantité.appendChild(cart__item__content__settings__quantity);
-            //         quantité = window.localStorage.getItem('quantity')
-
-            //     let cart__item__content__settings__delete = document.createElement("div");
-            //     cart__item__content__settings__delete.appendChild(cart__item__content__settings);
-            //         let deleteItem = document.createElement("p");
-            //         // deleteItem.textContent = Supprimer;
-            //         deleteItem.appendChild(cart__item__content__settings__delete)
+                let colors = document.createElement("p")
+                colors.classList.add("colors")
+                colors.textContent = panier.colors
+                cart__item__content__description.appendChild(colors)
 
 
-    // // HTML.appendChild(cart__items)
+                let prix = document.createElement("p")
+                prix.classList.add("prix")
+                // prix = panier.prixProduit
+                cart__item__content__description.appendChild(prix)
+                
+                
+            let cart__item__content__settings = document.createElement("div")
+            cart__item__content__settings.classList.add("cart__item__content__settings")
+            cart__item__content.appendChild(cart__item__content__settings)
+
+                let cart__item__content__settings__quantity = document.createElement("div");
+                cart__item__content__settings__quantity.classList.add("cart__item__content__settings__quantity")
+                cart__item__content__settings.appendChild(cart__item__content__settings__quantity);
+
+                    let quantité = document.createElement("p");
+                    quantité.classList.add("quantité")
+                    cart__item__content__settings__quantity.appendChild(quantité);
+
+                    let itemQuantity = document.createElement("input");
+                    itemQuantity.classList.add("itemQuantity")
+                    document.getElementById("panier.quantity").value = "";
+                    cart__item__content__settings__quantity.appendChild(itemQuantity);
+
+                let cart__item__content__settings__delete = document.createElement("div");
+                cart__item__content__settings__delete.classList.add("cart__item__content__settings__delete")
+                cart__item__content__settings.appendChild(cart__item__content__settings__delete);
+                    let deleteItem = document.createElement("p");
+                    deleteItem.classList.add("deleteItem")
+                    deleteItem = document.createTextNode ('Supprimer');
+                   
+                    cart__item__content__settings__delete.appendChild(deleteItem);
+
+
+  
 
 
     

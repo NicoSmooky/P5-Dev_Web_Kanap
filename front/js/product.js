@@ -92,8 +92,14 @@ fetch(urlProduct)
     
     console.log(myProduct)
    
-    urlProduct = JSON.stringify(myProduct);
+    //TEST//
    
+
+
+    //Fin TEST//
+
+    urlProduct = JSON.stringify(myProduct);
+    JSON.stringify(myProduct);
     
     
     myProduct = localStorage.getItem("myProduct");
@@ -103,17 +109,17 @@ fetch(urlProduct)
     
     console.log(localStorage.getItem('panier'));
     
-
+    
 });
 
 
-myProduct = JSON.parse(localStorage.getItem('panier'))
+// myProduct = JSON.parse(localStorage.getItem('panier'))
 
-var myProduct = urlProduct;
+// var myProduct = urlProduct;
 
-sessionStorage.removeItem("myProduct");
+// sessionStorage.removeItem("myProduct");
 
-myProduct = localStorage.getItem("myProduct");
+// myProduct = localStorage.getItem("myProduct");
 
 });
 
