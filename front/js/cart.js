@@ -3,13 +3,34 @@ window.localStorage.getItem('panier');
 
 panier = JSON.parse(window.localStorage.getItem('panier'))
 
+
 console.log(panier)
-// id = JSON.parse(window.localStorage.getItem('idProduct'))
 
 
 
 
+// let len = localStorage.length;
+// console.log(len);
 
+
+//** TEST **//
+id = panier.id  
+// key boucle //
+// let urlBase = "http://localhost:3000/api/products/"
+let urlProductpanier = `http://localhost:3000/api/products/${id}`
+
+
+
+
+fetch(urlProductpanier)
+.then(data=>{
+    return data.json()
+}).then(urlProductpanier=>{
+
+//** END TEST**//
+
+
+// window.localStorage.clear();
    
     let HTML = document.getElementById("cart__items")
    
@@ -29,14 +50,14 @@ console.log(panier)
 
         let cart__item__img = document.createElement("div")
         cart__item__img.classList.add("cart__item__img")
-        console.log(cart__item__img)
+        // console.log(cart__item__img)
         cart__item.appendChild(cart__item__img)
         
             let cart_img = document.createElement("img")
             cart_img.classList.add("cart_img")
             
             cart__item__img.appendChild(cart_img)
-            cart_img.src = panier.imgProduit
+            cart_img.src = urlProductpanier.imageUrl
 
         
         let cart__item__content = document.createElement("div")
@@ -52,7 +73,7 @@ console.log(panier)
 
                 let nom_produit = document.createElement("h2")
                 nom_produit.classList.add("nom_produit")
-                nom_produit.textContent = panier.nomProduit
+                nom_produit.textContent = urlProductpanier.name
                 cart__item__content__description.appendChild(nom_produit)
                 
 
@@ -63,8 +84,8 @@ console.log(panier)
 
 
                 let prix = document.createElement("p")
-                prix.classList.add("prix")
-                // prix = panier.prixProduit
+                
+                prix.textContent = urlProductpanier.price + ('\u20AC')
                 cart__item__content__description.appendChild(prix)
                 
                 
@@ -76,27 +97,41 @@ console.log(panier)
                 cart__item__content__settings__quantity.classList.add("cart__item__content__settings__quantity")
                 cart__item__content__settings.appendChild(cart__item__content__settings__quantity);
 
-                    let quantité = document.createElement("p");
+                    let quantité = document.createElement("p")
                     quantité.classList.add("quantité")
-                    cart__item__content__settings__quantity.appendChild(quantité);
+                    quantité = document.createTextNode ('Qté : ')
+                    cart__item__content__settings__quantity.appendChild(quantité)
 
-                    let itemQuantity = document.createElement("input");
+                    let itemQuantity = document.createElement("input")
+                    itemQuantity.setAttribute("number", "itemQuantity", "min", "max");
+                    // var = document.querySelector('input').value;
+                    
                     itemQuantity.classList.add("itemQuantity")
-                    document.getElementById("panier.quantity").value = "";
-                    cart__item__content__settings__quantity.appendChild(itemQuantity);
+                    cart__item__content__settings__quantity.appendChild(itemQuantity)
+                    // ici //
+                    itemQuantity = panier.quantity
+                    
+                    
 
                 let cart__item__content__settings__delete = document.createElement("div");
                 cart__item__content__settings__delete.classList.add("cart__item__content__settings__delete")
                 cart__item__content__settings.appendChild(cart__item__content__settings__delete);
-                    let deleteItem = document.createElement("p");
+                    
+                let deleteItem = document.createElement("p")
                     deleteItem.classList.add("deleteItem")
-                    deleteItem = document.createTextNode ('Supprimer');
-                   
-                    cart__item__content__settings__delete.appendChild(deleteItem);
+                let deleteText = document.createTextNode ('Supprimer')
+                    deleteItem.appendChild(deleteText)
+                    cart__item__content__settings__delete.appendChild(deleteItem)
 
-
+        
+    // var tQuantity = document.getElementById("totalQuantity").value;
+    // tQuantity = quantity_select
   
 
+    // let tPrice = document.getElementById("totalPrice");
+    // tPrice = panier.prixP
+  
+});
 
     
     

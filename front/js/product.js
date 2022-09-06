@@ -81,22 +81,23 @@ fetch(urlProduct)
 
     myProduct = {
         id : urlProduct._id,
-        imgProduit : urlProduct.imageUrl,
-        nomProduit : urlProduct.name,
-        descriptionProduit : urlProduct.description,
+        // imgProduit : urlProduct.imageUrl,
+        // nomProduit : urlProduct.name,
+        // descriptionProduit : urlProduct.description,
         // *** color : couleur sélectionné *** //
         colors : color_select,
         // *** quantité : quantité sélectionné *** //
-        quantity : quantity_select
+        quantity : quantity_select,
+        // test
+        // prixP : urlProduct.price
     };
+    let len = localStorage.length;
+    console.log(len);
+
     
     console.log(myProduct)
    
-    //TEST//
-   
-
-
-    //Fin TEST//
+    
 
     urlProduct = JSON.stringify(myProduct);
     JSON.stringify(myProduct);
@@ -117,7 +118,7 @@ fetch(urlProduct)
 
 // var myProduct = urlProduct;
 
-// sessionStorage.removeItem("myProduct");
+sessionStorage.removeItem("myProduct");
 
 // myProduct = localStorage.getItem("myProduct");
 
