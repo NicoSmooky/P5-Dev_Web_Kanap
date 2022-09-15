@@ -8,16 +8,11 @@ console.log(panier)
 
 
 
-
-// let len = localStorage.length;
-// console.log(len);
-
-
-//** TEST **//
 id = panier.id  
 // key boucle //
 // let urlBase = "http://localhost:3000/api/products/"
 let urlProductpanier = `http://localhost:3000/api/products/${id}`
+
 
 
 
@@ -27,11 +22,6 @@ fetch(urlProductpanier)
     return data.json()
 }).then(urlProductpanier=>{
 
-//** END TEST**//
-
-
-// window.localStorage.clear();
-   
     let HTML = document.getElementById("cart__items")
    
         
@@ -50,7 +40,6 @@ fetch(urlProductpanier)
 
         let cart__item__img = document.createElement("div")
         cart__item__img.classList.add("cart__item__img")
-        // console.log(cart__item__img)
         cart__item.appendChild(cart__item__img)
         
             let cart_img = document.createElement("img")
@@ -103,15 +92,11 @@ fetch(urlProductpanier)
                     cart__item__content__settings__quantity.appendChild(quantité)
 
                     let itemQuantity = document.createElement("input")
-                    itemQuantity.setAttribute("number", "itemQuantity", "min", "max");
-                    // var = document.querySelector('input').value;
-                    
                     itemQuantity.classList.add("itemQuantity")
                     cart__item__content__settings__quantity.appendChild(itemQuantity)
-                    // ici //
-                    itemQuantity = panier.quantity
-                    
-                    
+                    // itemQuantity.value = minMax
+
+                    console.log(itemQuantity)
 
                 let cart__item__content__settings__delete = document.createElement("div");
                 cart__item__content__settings__delete.classList.add("cart__item__content__settings__delete")
@@ -123,13 +108,6 @@ fetch(urlProductpanier)
                     deleteItem.appendChild(deleteText)
                     cart__item__content__settings__delete.appendChild(deleteItem)
 
-        
-    // var tQuantity = document.getElementById("totalQuantity").value;
-    // tQuantity = quantity_select
-  
-
-    // let tPrice = document.getElementById("totalPrice");
-    // tPrice = panier.prixP
   
 });
 

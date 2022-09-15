@@ -1,7 +1,3 @@
-
-// console.log(window)
-// console.log(window.location)
-
 const urlParams = new URLSearchParams(window.location.search);
 const id = urlParams.get("id");
 console.log(id)
@@ -55,9 +51,7 @@ fetch(urlProduct)
         console.log(color)
 
         let colorElt = document.createElement ("option");
-        //Value
         colorElt.value = color
-        //Textcontent
         colorElt.textContent = color
         colors.appendChild(colorElt)
 
@@ -67,9 +61,18 @@ fetch(urlProduct)
     let btnpanier = document.getElementById("addToCart");
     console.log(btnpanier)
 
+
+
+    /*TEST*/
+
+    // btnpanier.addEventListener("click", getPanier => {
+    // getPanier.preventDefault()
+    // alert("Produit ajouté")};
+
+    /*END TEST*/
     
-    btnpanier.addEventListener("click", event => {
-    event.preventDefault()
+    btnpanier.addEventListener("click", getPanier => {
+    getPanier.preventDefault()
     alert("Produit ajouté")
 
     var color_select = document.getElementById("colors").value;
@@ -81,16 +84,10 @@ fetch(urlProduct)
 
     myProduct = {
         id : urlProduct._id,
-        // imgProduit : urlProduct.imageUrl,
-        // nomProduit : urlProduct.name,
-        // descriptionProduit : urlProduct.description,
-        // *** color : couleur sélectionné *** //
         colors : color_select,
-        // *** quantité : quantité sélectionné *** //
         quantity : quantity_select,
-        // test
-        // prixP : urlProduct.price
     };
+
     let len = localStorage.length;
     console.log(len);
 
@@ -114,13 +111,13 @@ fetch(urlProduct)
 });
 
 
-// myProduct = JSON.parse(localStorage.getItem('panier'))
+myProduct = JSON.parse(localStorage.getItem('panier'))
 
-// var myProduct = urlProduct;
+var myProduct = urlProduct;
 
 sessionStorage.removeItem("myProduct");
 
-// myProduct = localStorage.getItem("myProduct");
+myProduct = localStorage.getItem("myProduct");
 
 });
 
