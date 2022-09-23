@@ -1,123 +1,94 @@
 const urlParams = new URLSearchParams(window.location.search);
 const id = urlParams.get("id");
-console.log(id)
+console.log(id);
 
+let urlBase = "http://localhost:3000/api/products/";
+let urlProduct = `http://localhost:3000/api/products/${id}`;
 
-let urlBase = "http://localhost:3000/api/products/"
-let urlProduct = `http://localhost:3000/api/products/${id}`
-// let urlProduct = urlBase + id
-console.log(urlProduct)
-
+console.log(urlProduct);
 
 fetch(urlProduct)
-.then(data=> {
-    return data.json()
-}).then(urlProduct=>{
-    console.log(urlProduct)
+  .then((data) => {
+    return data.json();
+  })
+  .then((urlProduct) => {
+    console.log(urlProduct);
 
-    let image = document.querySelector(".item__img img")
+    let image = document.querySelector(".item__img img");
     image.alt = urlProduct.altTxt;
     image.src = urlProduct.imageUrl;
 
-    
-    let nom = document.getElementById("title")
-    console.log(nom)
+    let nom = document.getElementById("title");
+    console.log(nom);
     nom.textContent = urlProduct.name;
 
-    //** Prix **//
-  
-    let prix = document.getElementById("price")
-    console.log(price)
-    
+    let prix = document.getElementById("price");
+    console.log(price);
+
     var prixproduit = urlProduct.price;
-    prix.textContent = (new Intl.NumberFormat('de-DE', { style: 'decimal', currency: 'EUR' , currencyDisplay: "code" }).format(prixproduit));
-    
+    prix.textContent = new Intl.NumberFormat("de-DE", {
+      style: "decimal",
+      currency: "EUR",
+      currencyDisplay: "code",
+    }).format(prixproduit);
 
-    //** Prix End **//
-
-
-    let description = document.getElementById("description")
-    console.log(description , image)
+    let description = document.getElementById("description");
+    console.log(description, image);
 
     description.textContent = urlProduct.description;
-    
 
-    let couleur = document.getElementById("colors")
-    console.log(colors)
+    let couleur = document.getElementById("colors");
+    console.log(colors);
 
-
-    console.log(urlProduct.colors)
+    console.log(urlProduct.colors);
     urlProduct.colors.forEach((color) => {
-        console.log(color)
+      console.log(color);
 
-        let colorElt = document.createElement ("option");
-        colorElt.value = color
-        colorElt.textContent = color
-        colors.appendChild(colorElt)
-
-
+      let colorElt = document.createElement("option");
+      colorElt.value = color;
+      colorElt.textContent = color;
+      colors.appendChild(colorElt);
     });
 
     let btnpanier = document.getElementById("addToCart");
-    console.log(btnpanier)
+    console.log(btnpanier);
 
+    function savePanier(panier) {
+      localStorage.setItem("panier", JSON.stringify(panier));
+    }
+    function getPanier() {
+      let panier = localStorage.getItem("panier");
+      if (panier == null) {
+        return [];
+      } else {
+        return JSON.parse(panier);
+      }
+    }
 
+    function addPanier() {
+      var color_select = document.getElementById("colors").value;
+      console.log(color_select);
 
-    /*TEST*/
+      var quantity_select = document.getElementById("quantity").value;
+      console.log(quantity_select);
 
-    // btnpanier.addEventListener("click", getPanier => {
-    // getPanier.preventDefault()
-    // alert("Produit ajouté")};
+      product = {
+        id: urlProduct._id,
+        colors: color_select,
+        quantity: quantity_select,
+      };
 
-    /*END TEST*/
-    
-    btnpanier.addEventListener("click", getPanier => {
-    getPanier.preventDefault()
-    alert("Produit ajouté")
+      let panier = getPanier();
+      let foundProduct = panier.find((p) => p.id == urlProduct._id);
+      if (foundProduct != undefined) {
+        foundProduct.quantity++;
+      } else {
+        product.quantity = 1;
+        panier.push(product);
+      }
 
-    var color_select = document.getElementById("colors").value;
-    console.log(color_select)
-   
-    var quantity_select = document.getElementById("quantity").value;
-    console.log(quantity_select)
+      savePanier(panier);
+    }
 
-
-    myProduct = {
-        id : urlProduct._id,
-        colors : color_select,
-        quantity : quantity_select,
-    };
-
-    let len = localStorage.length;
-    console.log(len);
-
-    
-    console.log(myProduct)
-   
-    
-
-    urlProduct = JSON.stringify(myProduct);
-    JSON.stringify(myProduct);
-    
-    
-    myProduct = localStorage.getItem("myProduct");
-    
-    localStorage.setItem('panier', urlProduct);
-    
-    
-    console.log(localStorage.getItem('panier'));
-    
-    
-});
-
-
-myProduct = JSON.parse(localStorage.getItem('panier'))
-
-var myProduct = urlProduct;
-
-sessionStorage.removeItem("myProduct");
-
-myProduct = localStorage.getItem("myProduct");
-
-});
-
+    btnpanier.addEventListener("click", addPanier);
+  });
