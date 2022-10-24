@@ -9,11 +9,31 @@ function getPanier() {
   }
 }
 
+// function getNumberProduct() {
+//   let panier = getPanier();
+//   let number = 0;
+//   for (let itemQuantity of panier) {
+//     number += itemQuantity;
+//   }
+//   return number;
+// }
+
+// function getTotalPrice() {
+//   let panier = getPanier();
+//   let total = 0;
+//   for (let product of panier) {
+//     total += product.quantity * product.price;
+//   }
+//   return total;
+// }
+
 panier = getPanier();
 
 panier.forEach((element) => {
-  id = element.id;
-  let urlProductpanier = `http://localhost:3000/api/products/${id}`;
+  canap_id = element.id;
+  let canap_colors = element.colors;
+  let canap_quantity = element.quantity;
+  let urlProductpanier = `http://localhost:3000/api/products/${canap_id}`;
 
   fetch(urlProductpanier)
     .then((data) => {
@@ -57,12 +77,12 @@ panier.forEach((element) => {
       cart__item__content__description.appendChild(nom_produit);
 
       let colors = document.createElement("p");
-      colors.classList.add("colors");
-      colors.textContent = panier.colors;
+      // colors.classList.add("colors");
+      console.log(canap_colors);
+      colors.textContent = canap_colors;
       cart__item__content__description.appendChild(colors);
 
       let prix = document.createElement("p");
-
       prix.textContent = urlProductpanier.price + "\u20AC";
       cart__item__content__description.appendChild(prix);
 
@@ -88,7 +108,13 @@ panier.forEach((element) => {
 
       let itemQuantity = document.createElement("input");
       itemQuantity.classList.add("itemQuantity");
+      itemQuantity.name = itemQuantity;
+      itemQuantity.type = "number";
+      itemQuantity.defaultValue = canap_quantity;
+      itemQuantity.min = 1;
+      itemQuantity.max = 100;
       cart__item__content__settings__quantity.appendChild(itemQuantity);
+      itemQuantity = panier.quantity;
 
       let cart__item__content__settings__delete = document.createElement("div");
       cart__item__content__settings__delete.classList.add(
@@ -103,5 +129,30 @@ panier.forEach((element) => {
       let deleteText = document.createTextNode("Supprimer");
       deleteItem.appendChild(deleteText);
       cart__item__content__settings__delete.appendChild(deleteItem);
+
+      let quantiteTotal = document.getElementById(totalQuantity);
+      totalQuantity.appendChild(cart__price);
+      quantiteTotal = getNumberProduct;
+      function getNumberProduct() {
+        let panier = getPanier();
+        let number = 0;
+        for (let itemQuantity of panier) {
+          number += itemQuantity;
+        }
+        return number;
+      }
+
+      console.log(quantiteTotal);
+
+      let totalPrix = document.getElementById(totalPrice);
+      totalPrix = getTotalPrice;
+      function getTotalPrice() {
+        let panier = getPanier();
+        let total = 0;
+        for (let product of panier) {
+          total += product.quantity * product.price;
+        }
+        return total;
+      }
     });
 });

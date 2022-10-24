@@ -1,10 +1,12 @@
+
 const urlParams = new URLSearchParams(window.location.search);
 const id = urlParams.get("id");
 console.log(id);
 
+
 let urlBase = "http://localhost:3000/api/products/";
 let urlProduct = `http://localhost:3000/api/products/${id}`;
-
+// import {savePanier, getPanier, addPanier} from './functionpanier';
 console.log(urlProduct);
 
 fetch(urlProduct)
@@ -56,6 +58,8 @@ fetch(urlProduct)
     function savePanier(panier) {
       localStorage.setItem("panier", JSON.stringify(panier));
     }
+    // savePanier;
+
     function getPanier() {
       let panier = localStorage.getItem("panier");
       if (panier == null) {
@@ -64,6 +68,7 @@ fetch(urlProduct)
         return JSON.parse(panier);
       }
     }
+    // getPanier;
 
     function addPanier() {
       var color_select = document.getElementById("colors").value;
@@ -83,9 +88,18 @@ fetch(urlProduct)
       if (foundProduct != undefined) {
         foundProduct.quantity++;
       } else {
-        product.quantity = 1;
         panier.push(product);
       }
+
+      
+      /*TEST*/
+      // let colors = getPanier();
+      // let foundColors = colors.find((p) => p.colors == urlProduct.colors);
+      // if (foundColors != undefined) {
+      //   foundColors.quantity++;
+      // } else {
+      //   panier.push(product);
+      // }
 
       savePanier(panier);
     }

@@ -60,3 +60,5 @@ function getTotalPrice() {
   }
   return total;
 }
+
+// export {savePanier, getPanier, addPanier,removeFromPanier, changeQuantity, getNumberProduct, getTotalPrice};
