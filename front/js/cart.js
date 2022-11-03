@@ -1,5 +1,3 @@
-// window.localStorage.getItem('panier');
-
 function getPanier() {
   let panier = localStorage.getItem("panier");
   if (panier == null) {
@@ -8,24 +6,6 @@ function getPanier() {
     return JSON.parse(panier);
   }
 }
-
-// function getNumberProduct() {
-//   let panier = getPanier();
-//   let number = 0;
-//   for (let itemQuantity of panier) {
-//     number += itemQuantity;
-//   }
-//   return number;
-// }
-
-// function getTotalPrice() {
-//   let panier = getPanier();
-//   let total = 0;
-//   for (let product of panier) {
-//     total += product.quantity * product.price;
-//   }
-//   return total;
-// }
 
 panier = getPanier();
 
@@ -77,8 +57,6 @@ panier.forEach((element) => {
       cart__item__content__description.appendChild(nom_produit);
 
       let colors = document.createElement("p");
-      // colors.classList.add("colors");
-      console.log(canap_colors);
       colors.textContent = canap_colors;
       cart__item__content__description.appendChild(colors);
 
@@ -111,10 +89,24 @@ panier.forEach((element) => {
       itemQuantity.name = itemQuantity;
       itemQuantity.type = "number";
       itemQuantity.defaultValue = canap_quantity;
-      itemQuantity.min = 1;
+      itemQuantity.min = 0;
       itemQuantity.max = 100;
       cart__item__content__settings__quantity.appendChild(itemQuantity);
-      itemQuantity = panier.quantity;
+      (itemQuantity = panier.quantity), changeQuantity;
+
+      /**TEST**/
+      function changeQuantity(canap_id, canap_quantity) {
+        let panier = getPanier();
+        let foundProduct = panier.find((p) => p.id == canap_id);
+        if (foundProduct != undefined) {
+          foundProduct.quantity += canap_quantity;
+          if (foundProduct.quantity <= 0) {
+            removeFromPanier(foundProduct);
+          } else {
+            savePanier(panier);
+          }
+        }
+      }
 
       let cart__item__content__settings__delete = document.createElement("div");
       cart__item__content__settings__delete.classList.add(
@@ -130,27 +122,35 @@ panier.forEach((element) => {
       deleteItem.appendChild(deleteText);
       cart__item__content__settings__delete.appendChild(deleteItem);
 
-      let quantiteTotal = document.getElementById(totalQuantity);
-      totalQuantity.appendChild(cart__price);
-      quantiteTotal = getNumberProduct;
+      /**TEST**/
+
+      // deleteItem.addEventListener("click", removeFromPanier);
+
+      // function removeFromPanier(canap_id) {
+      //   let panier = getPanier();
+      //   panier = panier.filter((p) => p.id != canap_id);
+      //   savePanier(panier);
+      // }
+
+      let quantiteTotal = document.getElementById("totalQuantity");
+      quantiteTotal.innerHTML = getNumberProduct();
       function getNumberProduct() {
         let panier = getPanier();
         let number = 0;
-        for (let itemQuantity of panier) {
-          number += itemQuantity;
+        for (let product of panier) {
+          number += parseInt(product.quantity);
         }
         return number;
       }
 
-      console.log(quantiteTotal);
-
-      let totalPrix = document.getElementById(totalPrice);
-      totalPrix = getTotalPrice;
+      let totalPrix = document.getElementById("totalPrice");
+      totalPrix.innerHTML = getTotalPrice();
       function getTotalPrice() {
         let panier = getPanier();
         let total = 0;
         for (let product of panier) {
-          total += product.quantity * product.price;
+          total +=
+            parseInt(product.quantity) * parseFloat(urlProductpanier.price);
         }
         return total;
       }

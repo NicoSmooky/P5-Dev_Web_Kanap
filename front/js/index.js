@@ -14,7 +14,6 @@ fetch(url)
     products.forEach((product) => {
       console.log(product);
       console.log(product.name);
-      // console.log(product.id)
 
       let card = document.createElement("a");
       card.href = `./product.html?id=${product._id}`;
