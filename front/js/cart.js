@@ -6,22 +6,26 @@ function getPanier() {
     return JSON.parse(panier);
   }
 }
+function savePanier(panier) {
+  localStorage.setItem("panier", JSON.stringify(panier));
+}
 
 panier = getPanier();
-
+let canap = 0;
+let deleteItem = []
 panier.forEach((element) => {
-  canap_id = element.id;
+  let canap_id = element.id;
   let canap_colors = element.colors;
   let canap_quantity = element.quantity;
   let urlProductpanier = `http://localhost:3000/api/products/${canap_id}`;
-
+  
   fetch(urlProductpanier)
     .then((data) => {
       return data.json();
     })
     .then((urlProductpanier) => {
       let HTML = document.getElementById("cart__items");
-
+      canap++;
       // ****HTML****//
       let cart__item = document.createElement("article");
 
@@ -85,6 +89,7 @@ panier.forEach((element) => {
       cart__item__content__settings__quantity.appendChild(quantité);
 
       let itemQuantity = document.createElement("input");
+      itemQuantity.setAttribute('id',canap_id)
       itemQuantity.classList.add("itemQuantity");
       itemQuantity.name = itemQuantity;
       itemQuantity.type = "number";
@@ -92,20 +97,30 @@ panier.forEach((element) => {
       itemQuantity.min = 0;
       itemQuantity.max = 100;
       cart__item__content__settings__quantity.appendChild(itemQuantity);
-      (itemQuantity = panier.quantity), changeQuantity;
+      
+      // itemQuantity.addEventListener('click',function() {changeQuantity(canap_id)});
+      itemQuantity.addEventListener('change',function() {changeQuantity(canap_id)});
+      (itemQuantity = panier.quantity);
+      console.log(canap_quantity)
 
-      /**TEST**/
-      function changeQuantity(canap_id, canap_quantity) {
+      function changeQuantity(canap_id) {
+        console.log(`canap_id ${canap_id}`)
+        let canap_quantity = document.getElementById(canap_id).valueAsNumber
+        console.log(canap_quantity)
         let panier = getPanier();
         let foundProduct = panier.find((p) => p.id == canap_id);
         if (foundProduct != undefined) {
-          foundProduct.quantity += canap_quantity;
+          foundProduct.quantity = canap_quantity;
           if (foundProduct.quantity <= 0) {
             removeFromPanier(foundProduct);
+            savePanier(panier)
+            location.reload()
           } else {
             savePanier(panier);
+            location.reload()
           }
         }
+      location.reload()
       }
 
       let cart__item__content__settings__delete = document.createElement("div");
@@ -115,22 +130,36 @@ panier.forEach((element) => {
       cart__item__content__settings.appendChild(
         cart__item__content__settings__delete
       );
-
-      let deleteItem = document.createElement("p");
-      deleteItem.classList.add("deleteItem");
+      console.log(canap, canap_id)
+      deleteItem[canap] = document.createElement("p");
+      deleteItem[canap].classList.add("deleteItem");
       let deleteText = document.createTextNode("Supprimer");
-      deleteItem.appendChild(deleteText);
-      cart__item__content__settings__delete.appendChild(deleteItem);
+      deleteItem[canap].appendChild(deleteText);
+      cart__item__content__settings__delete.appendChild(deleteItem[canap]);
 
-      /**TEST**/
+      /*canap_colors ? */
+	    deleteItem[canap].addEventListener("click", ()=>{ removeFromPanier(canap_id),removeFromPanier(canap_id)  });
+      
 
-      // deleteItem.addEventListener("click", removeFromPanier);
+      function removeFromPanier(canap_id) {
+        console.log('removefromPanier',canap_id)
 
-      // function removeFromPanier(canap_id) {
-      //   let panier = getPanier();
-      //   panier = panier.filter((p) => p.id != canap_id);
-      //   savePanier(panier);
-      // }
+        let panier = getPanier();
+        panier = panier.filter((p) => p.id != canap_id);
+        savePanier(panier);
+        location.reload()
+      }
+
+      function removeFromPanier(canap_colors) {
+        console.log('removefromPanier',canap_colors)
+
+        let panier = getPanier();
+        panier = panier.filter((p) => p.colors != canap_colors);
+        savePanier(panier);
+        location.reload()
+      }
+      /*canap_colors ? */
+
 
       let quantiteTotal = document.getElementById("totalQuantity");
       quantiteTotal.innerHTML = getNumberProduct();

@@ -81,6 +81,7 @@ fetch(urlProduct)
 
       let panier = getPanier();
       let foundProduct = panier.find((p) => p.id == urlProduct._id);
+      if (validateCartInput(product.quantity, product.colors)){
       if (foundProduct != undefined) {
         if (foundProduct.colors == urlProduct.colors) {
           foundProduct.quantity++;
@@ -90,9 +91,54 @@ fetch(urlProduct)
       } else {
         panier.push(product);
       }
-
       savePanier(panier);
     }
+      
+    }
+
+    function validateCartInput(quantity, color){
+      console.log(quantity)
+      if (quantity <1 ) {
+      alert("Veuillez choisir une quantité comprise entre 1 et 100")
+    return false}
+      
+      if (!color){
+        alert('Veuillez choisir une couleur valide')
+      return  false}
+      return true
+    }
+
 
     btnpanier.addEventListener("click", addPanier);
+
+    
+
+
+
+
+
+
+
+    // validate color
+  // if (!color) {
+  //   errors.push(new ValidationEntryError('Veuillez choisir une couleur'))
+  // } else if (!data.colors.includes(color)) {
+  //   errors.push(new ValidationEntryError('Couleur inconnue'))
+  // }
+
+  // // validate quantity
+  // if (!Number.isInteger(quantity)) {
+  //   errors.push(new ValidationEntryError('Quantité invalide'))
+  // } else if (quantity < minQuantity || quantity > maxQuantity) {
+  //   errors.push(new ValidationEntryError(`Veuillez choisir une quantité comprise entre ${minQuantity} et ${maxQuantity}`))
+  // }
+
+  // if (errors.length === 0) {
+  //   return { color, quantity }
+  // }
+
+  // const err = new ValidationError(errors)
+
+  // throw err
+    
   });
