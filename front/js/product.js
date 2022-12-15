@@ -99,11 +99,11 @@ fetch(urlProduct)
     function validateCartInput(quantity, color){
       console.log(quantity)
       if (quantity <1 ) {
-      alert("Veuillez choisir une quantité comprise entre 1 et 100")
+      alert('Veuillez choisir une quantité comprise entre 1 et 100')
     return false}
       
       if (!color){
-        alert('Veuillez choisir une couleur valide')
+      alert('Veuillez choisir une couleur')
       return  false}
       return true
     }

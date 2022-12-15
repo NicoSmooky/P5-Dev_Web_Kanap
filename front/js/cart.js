@@ -1,3 +1,4 @@
+
 function getPanier() {
   let panier = localStorage.getItem("panier");
   if (panier == null) {
@@ -12,13 +13,13 @@ function savePanier(panier) {
 
 panier = getPanier();
 let canap = 0;
-let deleteItem = []
+let deleteItem = [];
 panier.forEach((element) => {
   let canap_id = element.id;
   let canap_colors = element.colors;
   let canap_quantity = element.quantity;
   let urlProductpanier = `http://localhost:3000/api/products/${canap_id}`;
-  
+
   fetch(urlProductpanier)
     .then((data) => {
       return data.json();
@@ -89,7 +90,7 @@ panier.forEach((element) => {
       cart__item__content__settings__quantity.appendChild(quantité);
 
       let itemQuantity = document.createElement("input");
-      itemQuantity.setAttribute('id',canap_id)
+      itemQuantity.setAttribute("id", canap_id);
       itemQuantity.classList.add("itemQuantity");
       itemQuantity.name = itemQuantity;
       itemQuantity.type = "number";
@@ -97,30 +98,31 @@ panier.forEach((element) => {
       itemQuantity.min = 0;
       itemQuantity.max = 100;
       cart__item__content__settings__quantity.appendChild(itemQuantity);
-      
-      // itemQuantity.addEventListener('click',function() {changeQuantity(canap_id)});
-      itemQuantity.addEventListener('change',function() {changeQuantity(canap_id)});
-      (itemQuantity = panier.quantity);
-      console.log(canap_quantity)
+
+      itemQuantity.addEventListener("change", function () {
+        changeQuantity(canap_id);
+      });
+      itemQuantity = panier.quantity;
+      console.log(canap_quantity);
 
       function changeQuantity(canap_id) {
-        console.log(`canap_id ${canap_id}`)
-        let canap_quantity = document.getElementById(canap_id).valueAsNumber
-        console.log(canap_quantity)
+        console.log(`canap_id ${canap_id}`);
+        let canap_quantity = document.getElementById(canap_id).valueAsNumber;
+        console.log(canap_quantity);
         let panier = getPanier();
         let foundProduct = panier.find((p) => p.id == canap_id);
         if (foundProduct != undefined) {
           foundProduct.quantity = canap_quantity;
           if (foundProduct.quantity <= 0) {
             removeFromPanier(foundProduct);
-            savePanier(panier)
-            location.reload()
+            savePanier(panier);
+            location.reload();
           } else {
             savePanier(panier);
-            location.reload()
+            location.reload();
           }
         }
-      location.reload()
+        location.reload();
       }
 
       let cart__item__content__settings__delete = document.createElement("div");
@@ -130,36 +132,30 @@ panier.forEach((element) => {
       cart__item__content__settings.appendChild(
         cart__item__content__settings__delete
       );
-      console.log(canap, canap_id)
+      console.log(canap, canap_id);
       deleteItem[canap] = document.createElement("p");
       deleteItem[canap].classList.add("deleteItem");
       let deleteText = document.createTextNode("Supprimer");
       deleteItem[canap].appendChild(deleteText);
       cart__item__content__settings__delete.appendChild(deleteItem[canap]);
 
-      /*canap_colors ? */
-	    deleteItem[canap].addEventListener("click", ()=>{ removeFromPanier(canap_id),removeFromPanier(canap_id)  });
-      
+      /*canap_colors*/
+      deleteItem[canap].addEventListener("click", () => {
+        removeFromPanier();
+      });
 
       function removeFromPanier(canap_id) {
-        console.log('removefromPanier',canap_id)
+        console.log("removefromPanier", canap_colors, canap_id);
 
         let panier = getPanier();
-        panier = panier.filter((p) => p.id != canap_id);
+        if ((panier = panier.filter((p) => p.id != canap_id)));
         savePanier(panier);
-        location.reload()
-      }
-
-      function removeFromPanier(canap_colors) {
-        console.log('removefromPanier',canap_colors)
-
-        let panier = getPanier();
-        panier = panier.filter((p) => p.colors != canap_colors);
+        location.reload();
+        if ((panier = panier.filter((p) => p.colors != canap_colors)));
         savePanier(panier);
-        location.reload()
+        location.reload();
       }
-      /*canap_colors ? */
-
+      /*canap_colors*/
 
       let quantiteTotal = document.getElementById("totalQuantity");
       quantiteTotal.innerHTML = getNumberProduct();
@@ -185,3 +181,92 @@ panier.forEach((element) => {
       }
     });
 });
+
+/*VALIDATE FORM */
+// firstName = document.getElementById("firstName") 
+// firstName.addEventListener('change', Validate ()) 
+
+// function textValidation(){
+//   if (document.value== "") { 
+//   }
+
+//   if (!/^[a-zA-Z]*$/firstName.document(value));
+//   { location.reload()
+//     alert('Prénom incorrect')
+//   }
+// };
+
+function Validate () {
+  if (document.myForm.FirstName.value == "") {
+      firstName = document.getElementById("firstName") 
+      firstNameErrorMsg = document.getElementById("firstNameErrorMsg")
+      var regex = new RegExp (!/^[a-zA-Z]*$/)
+      firstNameErrorMsg.alert("Prénom incorrect") 
+      document.myForm.Name.focus() ;
+      return false;
+  }
+
+  if (document.myForm.lastName.value == "") {
+      lastName = document.getElementById("lastName") 
+      lastNameErrorMsg = document.getElementById("lastNameErrorMsg") 
+      lastNameErrorMsg.alert("Nom incorrect") 
+      document.myForm.Name.focus() ;
+      return false;
+  }
+  if (document.myForm.Location.value == "") {
+      address = document.getElementById("address") 
+      addressErrorMsg = document.getElementById("addressErrorMsg") 
+      addressErrorMsg.alert("Adresse incorrect") 
+      document.myForm.Name.focus() ;
+      return false;
+  }
+  if (document.myForm.City.value == "") {
+      city = document.getElementById("city") 
+      cityErrorMsg = document.getElementById("cityErrorMsg") 
+      cityErrorMsg.alert("Ville incorrect") 
+      document.myForm.Name.focus() ;
+      return false;
+  }
+  if (document.myForm.Email.value == "") {
+      email = document.getElementById("email") 
+      emailErrorMsg = document.getElementById("emailErrorMsg") 
+      emailErrorMsg.alert("Email incorrect") 
+      document.myForm.Name.focus() ;
+      return false;
+  }
+}
+
+/*VALIDATE FORM */
+
+/*TEST SEND-DATA */
+
+// function sendData(data) {
+//   var XHR = new XMLHttpRequest();
+//   var urlEncodedData = "";
+//   var urlEncodedDataPairs = [];
+//   var name;
+
+
+//   for(name in data) {
+//     urlEncodedDataPairs.push(encodeURIComponent(name) + '=' + encodeURIComponent(data[name]));
+//   }
+
+//   urlEncodedData = urlEncodedDataPairs.join('&').replace(/%20/g, '+');
+
+//   XHR.addEventListener('load', function(event) {
+//     alert('Ouais ! Données envoyées et réponse chargée.');
+//   });
+
+//   XHR.addEventListener('error', function(event) {
+//     alert('Oups! Quelque chose s\'est mal passé.');
+//   });
+
+//   XHR.open('POST', 'https://example.com/cors.php');
+
+//   XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+//   XHR.send(urlEncodedData);
+// }
+
+
+/*TEST SEND-DATA */
