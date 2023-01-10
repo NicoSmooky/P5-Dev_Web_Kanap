@@ -183,90 +183,113 @@ panier.forEach((element) => {
 });
 
 /*VALIDATE FORM */
-// firstName = document.getElementById("firstName") 
-// firstName.addEventListener('change', Validate ()) 
 
-// function textValidation(){
-//   if (document.value== "") { 
-//   }
+firstName = document.getElementById("firstName") 
+lastName = document.getElementById("lastName") 
+city = document.getElementById("city") 
 
-//   if (!/^[a-zA-Z]*$/firstName.document(value));
-//   { location.reload()
-//     alert('Prénom incorrect')
-//   }
-// };
+firstName.addEventListener('change', Validate) 
+lastName.addEventListener('change', Validate) 
+city.addEventListener('change', Validate) 
 
 function Validate () {
-  if (document.myForm.FirstName.value == "") {
-      firstName = document.getElementById("firstName") 
-      firstNameErrorMsg = document.getElementById("firstNameErrorMsg")
-      var regex = new RegExp (!/^[a-zA-Z]*$/)
-      firstNameErrorMsg.alert("Prénom incorrect") 
-      document.myForm.Name.focus() ;
-      return false;
-  }
+    firstNameErrorMsg = document.getElementById("firstNameErrorMsg")
+    lastNameErrorMsg = document.getElementById("lastNameErrorMsg")
+    cityErrorMsg = document.getElementById("cityErrorMsg")
+      var regex = new RegExp ("^[a-zA-Z]*$","g")
+      
+      if (regex.test(firstName.value)){
+        firstNameErrorMsg.innerHTML = ""
+        return true }
+        firstNameErrorMsg.innerHTML= "Prénom incorrect"
+        firstName.focus() ;
 
-  if (document.myForm.lastName.value == "") {
-      lastName = document.getElementById("lastName") 
-      lastNameErrorMsg = document.getElementById("lastNameErrorMsg") 
-      lastNameErrorMsg.alert("Nom incorrect") 
-      document.myForm.Name.focus() ;
+      if (regex.test(lastName.value)){
+        lastNameErrorMsg.innerHTML = ""
+        return true }
+        lastNameErrorMsg.innerHTML= "Nom incorrect"
+        lastName.focus() ;
+
+      if (regex.test(city.value)){
+        cityErrorMsg.innerHTML = ""
+        return true }
+        cityErrorMsg.innerHTML= "Ville incorrect"
+        city.focus() ;
+
       return false;
-  }
-  if (document.myForm.Location.value == "") {
-      address = document.getElementById("address") 
-      addressErrorMsg = document.getElementById("addressErrorMsg") 
-      addressErrorMsg.alert("Adresse incorrect") 
-      document.myForm.Name.focus() ;
-      return false;
-  }
-  if (document.myForm.City.value == "") {
-      city = document.getElementById("city") 
-      cityErrorMsg = document.getElementById("cityErrorMsg") 
-      cityErrorMsg.alert("Ville incorrect") 
-      document.myForm.Name.focus() ;
-      return false;
-  }
-  if (document.myForm.Email.value == "") {
-      email = document.getElementById("email") 
-      emailErrorMsg = document.getElementById("emailErrorMsg") 
-      emailErrorMsg.alert("Email incorrect") 
-      document.myForm.Name.focus() ;
-      return false;
-  }
-}
+    }
 
 /*VALIDATE FORM */
 
 /*TEST SEND-DATA */
-
-// function sendData(data) {
-//   var XHR = new XMLHttpRequest();
-//   var urlEncodedData = "";
-//   var urlEncodedDataPairs = [];
-//   var name;
+order = document.getElementById("order")
+const form = document.querySelector('form');
 
 
-//   for(name in data) {
-//     urlEncodedDataPairs.push(encodeURIComponent(name) + '=' + encodeURIComponent(data[name]));
-//   }
+order.addEventListener('submit', (event) => {
+  event.preventDefault();
 
-//   urlEncodedData = urlEncodedDataPairs.join('&').replace(/%20/g, '+');
+  const formData = new FormData(form);
+  const products = [];
+  const contact = {};
+  let formValid = true;
 
-//   XHR.addEventListener('load', function(event) {
-//     alert('Ouais ! Données envoyées et réponse chargée.');
-//   });
+  // Récupération et validation des champs du formulaire
+  for (let field of formData.entries()) {
+    const [name, value] = field;
+    if (name.startsWith('product_')) {
+      // Champ produit
+      if (typeof value !== 'string' || value.trim() === '') {
+        formValid = false;
+      } else {
+        products.push(value.trim());
+      }
+    } else {
+      // Champ de contact
+      if (name === 'firstName' || name === 'lastName' || name === 'address' || name === 'city' || name === 'email') {
+        if (typeof value !== 'string' || value.trim() === '') {
+          formValid = false;
+        } else {
+          contact[name] = value.trim();
+        }
+      }
+    }
+  }
 
-//   XHR.addEventListener('error', function(event) {
-//     alert('Oups! Quelque chose s\'est mal passé.');
-//   });
+  if (formValid) {
+    fetch('http://localhost:3000/api/products/order', {
+      method: 'POST',
+      body: JSON.stringify({ contact, products })
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.value) {
+        // Le formulaire est valide, on peut le soumettre
+        form.submit();
+      } else {
+        // Le formulaire est invalide, on affiche les erreurs
+        const errors = data.errors;
+        for (let field in errors) {
+          const errorMessage = errors[field];
+          const fieldElement = form.querySelector(`[name="${field}"]`);
+          fieldElement.classList.add('error');
+          fieldElement.insertAdjacentHTML('afterend', `<div class="error-message">${errorMessage}</div>`);
+        }
+      }
+    });
+  } else {
+    // Le formulaire contient des champs invalides, on affiche un message d'erreur général
+    form.querySelector('#form-errors').innerHTML = 'Le formulaire contient des champs invalides';
+  }
+});
 
-//   XHR.open('POST', 'https://example.com/cors.php');
 
-//   XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
-//   XHR.send(urlEncodedData);
-// }
+
+
 
 
 /*TEST SEND-DATA */
+
+
+
