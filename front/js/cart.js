@@ -7,6 +7,16 @@ function getPanier() {
     return JSON.parse(panier);
   }
 }
+function getPanierOrder() {
+  let panier = getPanier();
+  
+    var products = []
+    panier.forEach((element) => {
+      products.push(element.id)
+  })
+  return products
+}
+
 function savePanier(panier) {
   localStorage.setItem("panier", JSON.stringify(panier));
 }
@@ -215,79 +225,42 @@ function Validate () {
         return true }
         cityErrorMsg.innerHTML= "Ville incorrect"
         city.focus() ;
-
+        
       return false;
     }
-
+    
 /*VALIDATE FORM */
 
 /*TEST SEND-DATA */
 order = document.getElementById("order")
-const form = document.querySelector('form');
 
-
-order.addEventListener('submit', (event) => {
+order.addEventListener('click', (event) => {
+  console.log("envoie de la commande");
+  // throw new Error("stop panier2");
   event.preventDefault();
-
-  const formData = new FormData(form);
-  const products = [];
-  const contact = {};
-  let formValid = true;
-
-  // Récupération et validation des champs du formulaire
-  for (let field of formData.entries()) {
-    const [name, value] = field;
-    if (name.startsWith('product_')) {
-      // Champ produit
-      if (typeof value !== 'string' || value.trim() === '') {
-        formValid = false;
-      } else {
-        products.push(value.trim());
-      }
-    } else {
-      // Champ de contact
-      if (name === 'firstName' || name === 'lastName' || name === 'address' || name === 'city' || name === 'email') {
-        if (typeof value !== 'string' || value.trim() === '') {
-          formValid = false;
-        } else {
-          contact[name] = value.trim();
-        }
-      }
-    }
-  }
-
-  if (formValid) {
+  let firstName = document.getElementById("firstName").value
+  let lastName = document.getElementById("lastName").value
+  let address = document.getElementById("address").value
+  let city = document.getElementById("city").value
+  let email = document.getElementById("email").value
+  const contact = {firstName, lastName, address, city, email};
+  const products = [getPanierOrder()];
+  
     fetch('http://localhost:3000/api/products/order', {
       method: 'POST',
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({ contact, products })
     })
     .then((response) => response.json())
     .then((data) => {
-      if (data.value) {
-        // Le formulaire est valide, on peut le soumettre
-        form.submit();
-      } else {
-        // Le formulaire est invalide, on affiche les erreurs
-        const errors = data.errors;
-        for (let field in errors) {
-          const errorMessage = errors[field];
-          const fieldElement = form.querySelector(`[name="${field}"]`);
-          fieldElement.classList.add('error');
-          fieldElement.insertAdjacentHTML('afterend', `<div class="error-message">${errorMessage}</div>`);
-        }
-      }
+      
+        //Confirmation HTML
+        window.location.replace("./confirmation.html?orderId=" + data.orderId);
     });
-  } else {
-    // Le formulaire contient des champs invalides, on affiche un message d'erreur général
-    form.querySelector('#form-errors').innerHTML = 'Le formulaire contient des champs invalides';
-  }
 });
-
-
-
-
-
-
 
 /*TEST SEND-DATA */
 
