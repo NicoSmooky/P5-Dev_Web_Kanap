@@ -185,7 +185,8 @@ panier.forEach((element) => {
         let total = 0;
         for (let product of panier) {
           total +=
-            parseInt(product.quantity) * parseFloat(urlProductpanier.price);
+            parseInt(product.quantity) * parseInt(urlProductpanier.price);
+            // Prend en compte 1 seul type de canapé 
         }
         return total;
       }
@@ -198,14 +199,12 @@ firstName = document.getElementById("firstName")
 lastName = document.getElementById("lastName") 
 city = document.getElementById("city") 
 
-firstName.addEventListener('change', Validate) 
-lastName.addEventListener('change', Validate) 
-city.addEventListener('change', Validate) 
+firstName.addEventListener('change', ValidateFirstName) 
+lastName.addEventListener('change', ValidateLastName) 
+city.addEventListener('change', ValidateCity) 
 
-function Validate () {
+function ValidateFirstName () {
     firstNameErrorMsg = document.getElementById("firstNameErrorMsg")
-    lastNameErrorMsg = document.getElementById("lastNameErrorMsg")
-    cityErrorMsg = document.getElementById("cityErrorMsg")
       var regex = new RegExp ("^[a-zA-Z]*$","g")
       
       if (regex.test(firstName.value)){
@@ -214,28 +213,54 @@ function Validate () {
         firstNameErrorMsg.innerHTML= "Prénom incorrect"
         firstName.focus() ;
 
-      if (regex.test(lastName.value)){
-        lastNameErrorMsg.innerHTML = ""
-        return true }
-        lastNameErrorMsg.innerHTML= "Nom incorrect"
-        lastName.focus() ;
+      return false;
+    }
+    
+function ValidateLastName () {
+  lastNameErrorMsg = document.getElementById("lastNameErrorMsg")
+    var regex = new RegExp ("^[a-zA-Z]*$","g")
+
+    if (regex.test(lastName.value)){
+      lastNameErrorMsg.innerHTML = ""
+      return true }
+      console.log(lastName)
+      lastNameErrorMsg.innerHTML= "Nom incorrect"
+      lastName.focus() ;
+
+    return false;
+  }
+
+function ValidateCity () {
+    cityErrorMsg = document.getElementById("cityErrorMsg")
+      var regex = new RegExp ("^[a-zA-Z]*$","g")
 
       if (regex.test(city.value)){
         cityErrorMsg.innerHTML = ""
         return true }
         cityErrorMsg.innerHTML= "Ville incorrect"
         city.focus() ;
-        
+    
       return false;
     }
-    
 /*VALIDATE FORM */
 
 /*TEST SEND-DATA */
+
+
+
+// if validate = true ?
+// if no error msg ??
+// valueMissing ?
+if(test){
+// test
 order = document.getElementById("order")
 
 order.addEventListener('click', (event) => {
   console.log("envoie de la commande");
+
+
+  
+  
   // throw new Error("stop panier2");
   event.preventDefault();
   let firstName = document.getElementById("firstName").value
@@ -260,8 +285,17 @@ order.addEventListener('click', (event) => {
         //Confirmation HTML
         window.location.replace("./confirmation.html?orderId=" + data.orderId);
     });
+  
+  
+  
 });
-
+}
+//test
+else{
+  firstName = false(
+  alert('Formulaire Vide'));
+}
+//test
 /*TEST SEND-DATA */
 
 
