@@ -21,16 +21,22 @@ function savePanier(panier) {
   localStorage.setItem("panier", JSON.stringify(panier));
 }
 
+
 panier = getPanier();
 let canap = 0;
 let deleteItem = [];
-panier.forEach((element) => {
-  let canap_id = element.id;
-  let canap_colors = element.colors;
-  let canap_quantity = element.quantity;
-  let urlProductpanier = `http://localhost:3000/api/products/${canap_id}`;
+var total = 0;
 
-  fetch(urlProductpanier)
+panier.forEach((element) => {
+  const canap_id = element.id;
+  const canap_colors = element.colors;
+  const canap_quantity = element.quantity;
+  
+
+  fetchProduct(canap_id)
+  async function fetchProduct(canap_id){
+  const urlProductpanier = `http://localhost:3000/api/products/${canap_id}`;
+  await fetch(urlProductpanier)
     .then((data) => {
       return data.json();
     })
@@ -177,21 +183,15 @@ panier.forEach((element) => {
         }
         return number;
       }
-
+      total +=
+      parseInt(canap_quantity) * parseInt(urlProductpanier.price);
       let totalPrix = document.getElementById("totalPrice");
-      totalPrix.innerHTML = getTotalPrice();
-      function getTotalPrice() {
-        let panier = getPanier();
-        let total = 0;
-        for (let product of panier) {
-          total +=
-            parseInt(product.quantity) * parseInt(urlProductpanier.price);
-            // Prend en compte 1 seul type de canapé 
-        }
-        return total;
-      }
+      totalPrix.innerHTML = total;
     });
+  }
+    
 });
+
 
 /*VALIDATE FORM */
 
@@ -205,9 +205,11 @@ city.addEventListener('change', ValidateCity)
 
 function ValidateFirstName () {
     firstNameErrorMsg = document.getElementById("firstNameErrorMsg")
-      var regex = new RegExp ("^[a-zA-Z]*$","g")
+      var regex1 = new RegExp ("^[a-zA-Z]*$","g")
+      // var regex2 = new RegExp ("(.|\s)*\S(.|\s)*", "g")
       
-      if (regex.test(firstName.value)){
+
+      if (regex1.test(firstName.value)&&firstName.value != ""){
         firstNameErrorMsg.innerHTML = ""
         return true }
         firstNameErrorMsg.innerHTML= "Prénom incorrect"
@@ -246,23 +248,14 @@ function ValidateCity () {
 
 /*TEST SEND-DATA */
 
-
-
-// if validate = true ?
-// if no error msg ??
-// valueMissing ?
-if(test){
-// test
 order = document.getElementById("order")
 
 order.addEventListener('click', (event) => {
   console.log("envoie de la commande");
-
-
-  
-  
-  // throw new Error("stop panier2");
   event.preventDefault();
+  if(ValidateFirstName()&&ValidateLastName()&&ValidateCity()){
+
+  
   let firstName = document.getElementById("firstName").value
   let lastName = document.getElementById("lastName").value
   let address = document.getElementById("address").value
@@ -270,7 +263,7 @@ order.addEventListener('click', (event) => {
   let email = document.getElementById("email").value
   const contact = {firstName, lastName, address, city, email};
   const products = [getPanierOrder()];
-  
+  console.log(JSON.stringify({ contact, products }))
     fetch('http://localhost:3000/api/products/order', {
       method: 'POST',
       headers: {
@@ -281,22 +274,18 @@ order.addEventListener('click', (event) => {
     })
     .then((response) => response.json())
     .then((data) => {
-      
+      console.log(data)
+
         //Confirmation HTML
         window.location.replace("./confirmation.html?orderId=" + data.orderId);
     });
   
   
-  
+  }else{}
 });
-}
-//test
-else{
-  firstName = false(
-  alert('Formulaire Vide'));
-}
-//test
-/*TEST SEND-DATA */
+
+
+/* SEND-DATA */
 
 
 
