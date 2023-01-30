@@ -293,7 +293,7 @@ order.addEventListener("click", (event) => {
     let city = document.getElementById("city").value;
     let email = document.getElementById("email").value;
     const contact = { firstName, lastName, address, city, email };
-    const products = [getPanierOrder()];
+    const products = getPanierOrder();
     console.log(JSON.stringify({ contact, products }));
     fetch("http://localhost:3000/api/products/order", {
       method: "POST",
@@ -312,6 +312,5 @@ order.addEventListener("click", (event) => {
       });
   } else {
   }
-});
-
+});S
 /* SEND-DATA */
