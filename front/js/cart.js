@@ -312,5 +312,5 @@ order.addEventListener("click", (event) => {
       });
   } else {
   }
-});S
+});
 /* SEND-DATA */
